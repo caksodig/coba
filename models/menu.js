@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     jenis: DataTypes.ENUM("makanan","minuman"),
     deskripsi: DataTypes.TEXT,
     gambar: DataTypes.STRING,
-    harga: DataTypes.INTEGER
+    harga: DataTypes.INTEGER,
+    stok: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'menu',

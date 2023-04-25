@@ -8,7 +8,8 @@ const app = express()
 const bodyParser = require('body-parser');
 
 const upload = require(`./uploadMenu`).single(`gambar`)
-
+const path = require(`path`);
+const fs = require(`fs`);
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
@@ -67,6 +68,7 @@ exports.addMenu = (request, response) => {
         deskripsi: request.body.deskripsi,
         gambar: request.file.filename,
         harga: request.body.harga,
+        stok: request.body.stok
       };
   
       console.log(newMenu);
@@ -104,11 +106,12 @@ exports.addMenu = (request, response) => {
         deskripsi: request.body.deskripsi,
         gambar: request.file.filename,
         harga: request.body.harga,
+        stok: request.body.stok
       };
   
       if (request.file) {
-        const selectedUser = await tipeModel.findOne({
-          where: { id: idType },
+        const selectedUser = await menuModel.findOne({
+          where: { id_menu: idType },
         });
   
         const oldFotoUser = selectedUser.gambar;
@@ -120,8 +123,8 @@ exports.addMenu = (request, response) => {
         dataType.gambar = request.file.filename;
       }
   
-      tipeModel
-        .update(dataType, { where: { id: idType } })
+      menuModel
+        .update(dataType, { where: { id_menu: idType } })
         .then((result) => {
           return response.json({
             success: true,
@@ -139,7 +142,7 @@ exports.addMenu = (request, response) => {
 
 exports.deleteMenu = (request, response) => {
     let id_menu = request.params.id
-    memberMenu.destroy({ where: { id: id_menu } })
+    menuModel.destroy({ where: { id_menu: id_menu } })
         .then(result => {
             return response.json({
                 succes: true,
